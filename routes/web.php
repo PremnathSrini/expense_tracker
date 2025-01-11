@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\user\TransactionController;
 use App\Http\Controllers\user\UserAuthController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\UserEmailVerificationController;
@@ -46,4 +47,9 @@ Route::post('register',[UserAuthController::class,'register'])->name('user.regis
 Route::post('login',[UserAuthController::class,'login'])->name('user.login');
 Route::get('logout',[UserAuthController::class,'logout'])->name('user.logout');
 Route::get('/user/dashboard',[UserController::class,'index'])->name('user.index');
+
+Route::get('transactions',[TransactionController::class,'index'])->name('user.transactions');
+Route::get('transaction/add',[TransactionController::class,'create'])->name('user.transaction.create');
+Route::post('transaction/store',[TransactionController::class,'store'])->name('user.transaction.store');
+Route::get('transaction/{transactionId}/edit',[TransactionController::class,'edit'])->name('user.transaction.edit');
 

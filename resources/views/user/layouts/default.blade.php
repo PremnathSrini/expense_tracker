@@ -23,6 +23,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
+{{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
 @include('user.layouts.sidebar')
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
@@ -294,6 +295,14 @@
         <script>
             $(document).ready(function() {
                 toastr.success("{{ Session::get('success') }}");
+            });
+        </script>
+    @endif
+
+    @if(Session::has('error'))
+        <script>
+            $(document).ready(function() {
+                toastr.error("{{ Session::get('error') }}");
             });
         </script>
     @endif

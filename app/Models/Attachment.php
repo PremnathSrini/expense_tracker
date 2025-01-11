@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Category extends Model
+class Attachment extends Model
 {
-    protected $table = 'categories';
+    protected $table = 'attachments';
 
     protected $guarded = [];
 

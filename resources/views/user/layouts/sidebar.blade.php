@@ -22,9 +22,9 @@
           </a>
         </li> --}}
         <li class="nav-item">
-          <a class="nav-link text-dark" href="#">
+          <a class="nav-link text-dark" href="{{route('user.transactions')}}">
             <i class="material-symbols-rounded opacity-5">receipt_long</i>
-            <span class="nav-link-text ms-1">Billing</span>
+            <span class="nav-link-text ms-1">Transactions</span>
           </a>
         </li>
         {{-- <li class="nav-item">

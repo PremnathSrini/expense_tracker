@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->double('amount');
             $table->string('description');
+            $table->date('date');
             $table->enum('type',['income','expense']);
             $table->foreignId('category_id')->constrained();
             $table->string('other_text')->nullable();
+            $table->foreignId('attachment_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
