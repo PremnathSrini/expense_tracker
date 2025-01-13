@@ -52,4 +52,5 @@ Route::get('transactions',[TransactionController::class,'index'])->name('user.tr
 Route::get('transaction/add',[TransactionController::class,'create'])->name('user.transaction.create');
 Route::post('transaction/store',[TransactionController::class,'store'])->name('user.transaction.store');
 Route::get('transaction/{transactionId}/edit',[TransactionController::class,'edit'])->name('user.transaction.edit');
+Route::patch('transaction/{transactionId}/update',[TransactionController::class,'update'])->name('user.transaction.update');
 

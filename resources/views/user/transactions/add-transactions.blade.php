@@ -56,19 +56,19 @@
                                     @error('category')
                                         <span class="text-danger text-sm mx-3"> {{$message}} </span>
                                     @enderror
-                                    <div class="row align-items-center mx-1 mb-3">
-                                        <div class="col-sm-2">
-                                            <label for="category" class="form-label text-lg">Category <span
+                                    <div class="input-group input-group-outline mb-3 mx-3">
+                                        {{-- <div class="col-sm-2"> --}}
+                                            <label for="category" class="form-label">Category <span
                                                     class="text-danger">*</span></label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <select name="category" id="category" class="form-select px-3">
-                                                <option value="">Select Category</option>
+                                        {{-- </div> --}}
+                                        {{-- <div class="col-md-10"> --}}
+                                            <select name="category" id="category" class="form-control px-3 py-3">
+                                                <option value=""></option>
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}" {{old('category') == $category->id ? "selected='selected'" : ''}}>{{ $category->name }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        {{-- </div> --}}
                                     </div>
                                     <div class="input-group input-group-outline mb-3 mx-3 other-text d-none">
                                         <label class="form-label">Category If Others</label>
