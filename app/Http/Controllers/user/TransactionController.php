@@ -7,6 +7,7 @@ use App\Models\Attachment;
 use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -35,7 +36,7 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-
+        $attachmentId = null;
         $validator = Validator::make(
             $request->all(),
             [
@@ -76,6 +77,8 @@ class TransactionController extends Controller
                 'type' => $request->type,
                 'category_id' => $request->category,
                 'attachment_id' => $attachmentId,
+                'user_id' => Auth::id(),
+                'other_text' => $request->other_text ?? null,
             ]);
             DB::commit();
             return to_route('user.transactions')->with('success', 'Transaction Added');
@@ -154,11 +157,11 @@ class TransactionController extends Controller
                 'type' => $request->type,
                 'category_id' => $request->category,
                 'attachment_id' => $attachmentId,
+                'other_text' => $request->other_text ?? null,
             ]);
 
             DB::commit();
             return to_route('user.transactions')->with('success', 'Transaction Updated Successfully');
-
         } catch (Throwable $e) {
             DB::rollBack();
             Log::error('transaction update error ' . $e->getMessage());

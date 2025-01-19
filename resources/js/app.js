@@ -1,3 +1,3 @@
 import './bootstrap';
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
+import 'daterangepicker';
+import 'daterangepicker/daterangepicker.css';

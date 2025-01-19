@@ -13,40 +13,43 @@ use Throwable;
 
 class GoogleController extends Controller
 {
-    public function redirectToGoogle(){
+    public function redirectToGoogle()
+    {
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback(){
+    public function handleGoogleCallback()
+    {
         DB::beginTransaction();
-        try{
+        try {
             $user = Socialite::driver('google')->user();
             // dd($user);
-            $findUser = User::where('google_id',$user->id)->first();
+            $findUser = User::where('google_id', $user->id)->first();
 
-            if($findUser){
-                if(Auth::attempt(['email' => $user->email, 'password' => 'password@123'])){
+            if ($findUser) {
+                if (Auth::attempt(['email' => $user->email, 'password' => 'password@123'])) {
                     DB::commit();
-                    return to_route('dashboard');
+                    return to_route('user.index');
                 }
-            }else{
+            } else {
                 $newUser = User::updateOrCreate(
                     ['email' => $user->email],
-                [
-                    'name' => $user->name,
-                    'google_id' => $user->id,
-                    'password' => bcrypt('password@123'),
-                    'role_id' => 1,
-                ]);
+                    [
+                        'name' => $user->name,
+                        'google_id' => $user->id,
+                        'password' => bcrypt('password@123'),
+                        'role_id' => 2,
+                    ]
+                );
                 DB::commit();
                 Auth::login($newUser);
-                return to_route('dashboard');
+                return to_route('user.index');
             }
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             DB::rollBack();
             Auth::logout();
-            Log::error('Google callback error' .$e->getMessage());
-            return redirect()->route('admin.login')->with('error','Failed to log in with Google. Please try again.');
+            Log::error('Google callback error' . $e->getMessage());
+            return redirect()->route('user.login')->with('error', 'Failed to log in with Google. Please try again.');
         }
     }
 }

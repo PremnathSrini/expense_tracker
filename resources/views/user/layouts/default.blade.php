@@ -20,6 +20,7 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="{{asset('admin_assets/css/material-dashboard.css?v=3.2.0')}}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -289,7 +290,10 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('admin_assets/js/material-dashboard.min.js?v=3.2.0')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    
+    @stack('custom-scripts')
 
     @if(Session::has('success'))
         <script>
@@ -306,7 +310,5 @@
             });
         </script>
     @endif
-
-  @stack('custom-scripts')
 </body>
 </html>

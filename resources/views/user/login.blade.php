@@ -1,16 +1,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Expense Tracker</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Expense Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 </head>
 
 <body>
-<!-- Login 9 - Bootstrap Brain Component -->
-<section class="bg-image"
+  <!-- Login 9 - Bootstrap Brain Component -->
+  <section class="bg-image"
     style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
     <div class="container">
       <div class="row align-items-center">
@@ -29,6 +30,9 @@
                 @csrf
                 <div class="row gy-3 overflow-hidden">
                   <div class="col-12">
+                    @if(Session::has('error'))
+                    <span class="text-danger"> {{Session::get('error')}} </span>
+                    @endif
                     @error('email')
                     <span class="text-danger"> {{$message}} </span>
                     @enderror
@@ -72,7 +76,7 @@
                 <div class="col-12">
                   <p class="mt-4 mb-4">Or continue with</p>
                   <div class="d-flex gap-2 gap-sm-3 justify-content-centerX">
-                    <a href="#!" class="btn btn-outline-danger bsb-btn-circle bsb-btn-circle-2xl">
+                    <a href="{{route('auth.google')}}" class="btn btn-outline-danger bsb-btn-circle bsb-btn-circle-2xl">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
                         <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
                       </svg>
@@ -97,15 +101,24 @@
       </div>
     </div>
   </section>
-    <script src="{{ asset('admin_assets/js/core/bootstrap.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    @if(Session::has('message'))
-    <script>
-        $(document).ready(function () {
-            toastr.success("Session::get('message')");
-        });
-    </script>
+  <script src="{{ asset('admin_assets/js/core/bootstrap.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  @if(Session::has('success'))
+        <script>
+            $(document).ready(function() {
+                toastr.success("{{ Session::get('success') }}");
+            });
+        </script>
+    @endif
+
+    @if(Session::has('error'))
+        <script>
+            $(document).ready(function() {
+                toastr.error("{{ Session::get('error') }}");
+            });
+        </script>
     @endif
 </body>
+
 </html>
