@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('name');
             $table->date('due_date');
             $table->double('amount');
+            $table->boolean('is_paid');
             $table->boolean('is_recurring');
-            $table->tinyInteger('recurring_interval');
+            $table->tinyInteger('recurring_interval')->nullable();
             $table->timestamps();
         });
     }

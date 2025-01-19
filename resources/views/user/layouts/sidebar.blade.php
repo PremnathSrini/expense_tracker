@@ -34,7 +34,7 @@
           </a>
         </li> --}}
       <li class="nav-item">
-        <a class="nav-link text-dark" href="#">
+        <a class="nav-link text-dark" href="{{route('user.bills')}}">
           <i class="material-symbols-rounded opacity-5">receipt_long</i>
           <span class="nav-link-text ms-1">Billing</span>
         </a>

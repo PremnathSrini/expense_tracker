@@ -25,7 +25,7 @@
                   </thead>
                   <tbody>
                     {{-- example --}}
-                    @foreach ($transactions as $transaction)
+                    @forelse($transactions as $transaction)
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
@@ -62,7 +62,11 @@
                         </a>
                       </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                      <td colspan="5" class="text-center">No Transaction found. Start by adding one!</td>
+                    </tr>
+                    @endforelse
                   </tbody>
                 </table>
               </div>

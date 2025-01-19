@@ -10,7 +10,7 @@
         </p>
       </div>
       <div>
-        <p class="mb-0 mx-3 text-primary">
+        <p class="mb-0 mx-3 text-primary font-weight-bolder">
           Select the date range to visualize your expenses.
         </p>
         <div class="input-group">

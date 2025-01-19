@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\user\BillController;
 use App\Http\Controllers\user\TransactionController;
 use App\Http\Controllers\user\UserAuthController;
 use App\Http\Controllers\user\UserController;
@@ -51,12 +52,22 @@ Route::get('logout', [UserAuthController::class, 'logout'])->name('user.logout')
 
 Route::middleware([AuthUser::class])->group(function(){
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.index');
-    
+    Route::post('/fetch-data', [UserController::class, 'fetchData'])->name('fetch-data');
+
+    /* Transactions */
     Route::get('transactions', [TransactionController::class, 'index'])->name('user.transactions');
     Route::get('transaction/add', [TransactionController::class, 'create'])->name('user.transaction.create');
     Route::post('transaction/store', [TransactionController::class, 'store'])->name('user.transaction.store');
     Route::get('transaction/{transactionId}/edit', [TransactionController::class, 'edit'])->name('user.transaction.edit');
     Route::patch('transaction/{transactionId}/update', [TransactionController::class, 'update'])->name('user.transaction.update');
 
-    Route::post('/fetch-data', [UserController::class, 'fetchData'])->name('fetch-data');
+    /* Bills */
+    Route::get('bills',[BillController::class,'index'])->name('user.bills');
+    Route::get('bill/add',[BillController::class,'create'])->name('user.bill.create');
+    Route::post('bill/store',[BillController::class,'store'])->name('user.bill.store');
+    Route::get('bill/{billId}/edit',[BillController::class,'edit'])->name('user.bill.edit');
+    Route::patch('bill/{billId}/update',[BillController::class,'update'])->name('user.bill.update');
+    Route::delete('/bill/{bilId}/destroy',[BillController::class,'destroy'])->name('user.bill.destroy');
+    /* Route::patch('bill/{billId}/update',[BillController::class,'update'])->name('user.bill.update');
+    user.bill.mark-as-paid */
 });
