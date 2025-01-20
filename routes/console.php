@@ -9,7 +9,9 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Artisan::command('app:send-bill-due-mail',function(){
-    Artisan::call('app:send-bill-due-mail');
-    $this->info('Bill due mail command executed!');
-});
+// Artisan::command('app:send-bill-due-mail',function(){
+//     Artisan::call('app:send-bill-due-mail');
+//     $this->info('Bill due mail command executed!');
+// });
+
+Schedule::command('app:send-bill-due-mail')->dailyAt('08:00');

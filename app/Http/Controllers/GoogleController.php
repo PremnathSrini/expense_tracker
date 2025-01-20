@@ -49,7 +49,7 @@ class GoogleController extends Controller
             DB::rollBack();
             Auth::logout();
             Log::error('Google callback error' . $e->getMessage());
-            return redirect()->route('user.login')->with('error', 'Failed to log in with Google. Please try again.');
+            return redirect()->route('user.loginForm')->with('error', 'Failed to log in with Google. Please try again.');
         }
     }
 }

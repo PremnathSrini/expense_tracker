@@ -30,21 +30,24 @@ class BillDueMailSendJob implements ShouldQueue
      * Execute the job.
      */
     public function handle(): void
-    {   
-
+    {
         $bills = Bill::where('due_date','<=',Carbon::now()->addDays(5))
                         ->where('is_paid','0')
                         ->get();
 
         foreach($bills as $bill){
             try{
-                $user = User::findOrFail($bill->user_id);
+                $user = User::where('id',$bill->user_id)->first();
                 $user->notify(new BillDueNotification($user,$bill));
-                Log::info('Notification has been notified');
+                Log::info("Notification sent successfully to user {$user->id} for bill {$bill->id}");
             }catch(Throwable $exception){
-                Log::error('Job handle error '.['exception' => $exception->getMessage()]);
+                Log::error('Error processing job', [
+                    'bill_id' => $bill->id,
+                    'exception_message' => $exception->getMessage(),
+                    'trace' => $exception->getTraceAsString(),
+                ]);
             }
         }
-        
+
     }
 }

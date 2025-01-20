@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,9 +13,9 @@ use Illuminate\Queue\SerializesModels;
 
 class BillDueNotification extends Notification
 {
-    use Queueable,Dispatchable;
+    use Queueable;
 
-    public $user,$bill;
+    protected $user,$bill;
 
     /**
      * Create a new notification instance.
@@ -40,10 +41,12 @@ class BillDueNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $dueDate = Carbon::parse($this->bill->due_date);
+
         return (new MailMessage)
                     ->subject('Upcoming Bill Reminder')
                     ->greeting('Hello '. $this->user->name)
-                    ->line('This is a reminder that your bill "' . $this->bill->name . '" is due on ' . $this->bill->due_date->format('d M Y') . '.')
+                    ->line('This is a reminder that your bill "' . $this->bill->name . '" is due on ' . $dueDate->format('d M Y') . '.')
                     ->line('Amount: ₹' . number_format($this->bill->amount, 2))
                     ->action('View Bill', url('/bills'))
                     ->line('Please pay it on time to avoid penalties.');

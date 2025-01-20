@@ -26,7 +26,7 @@ class AuthUser
             }
         }else{
             Log::info('else part in middleware'.Auth::check());
-            return to_route('user.login')->with('error','Failed to Login');
+            return to_route('user.loginForm')->with('error','Failed to Login');
         }
     }
 }

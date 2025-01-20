@@ -32,7 +32,7 @@
                             <p class="text-xs text-secondary mx-3 text-center mt-3">#{{$bill->id}}</p>
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{$bill->name}}</h6>                          
+                            <h6 class="mb-0 text-sm">{{$bill->name}}</h6>
                           </div>
                         </div>
                       </td>
