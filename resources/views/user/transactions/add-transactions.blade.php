@@ -34,9 +34,9 @@
                                 @error('date')
                                 <span class="text-danger text-sm mx-3"> {{$message}} </span>
                                 @enderror
-                                <div class="input-group input-group-outline mb-3 mx-3">
+                                <div class="input-group input-group-outline mb-3 mx-3 date-class">
                                     <label class="form-label">Date<span class="text-danger">*</span></label>
-                                    <input type="date" name="date" id="date" class="form-control" value="{{old('date')}}">
+                                    <input type="text" name="date" id="date" class="form-control" value="{{old('date')}}">
                                 </div>
                                 @error('type')
                                 <span class="text-danger text-sm mx-3"> {{$message}} </span>
@@ -117,6 +117,13 @@
                 } else {
                     $filePreview.text('');
                 }
+            });
+            $('#date').on('focus', function () {
+                $(this).attr('type', 'date');
+            });
+            $('#date').on('blur', function () {
+                $(this).attr('type', 'text');
+                $('.date-class').removeClass('is-focused');
             });
         });
     </script>

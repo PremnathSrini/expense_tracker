@@ -85,6 +85,8 @@
             const currentUrl = window.location.href;
 
             const activeLink = localStorage.getItem('activeLink');
+            console.log(activeLink,currentUrl);
+
             if (activeLink) {
                 $links.removeClass('active bg-gradient-dark text-white');
                 $(`#${activeLink}`).addClass('active bg-gradient-dark text-white');

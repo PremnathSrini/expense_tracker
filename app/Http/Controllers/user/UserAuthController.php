@@ -51,7 +51,7 @@ class UserAuthController extends Controller
             Mail::to($user->email)->send(new VerifyEmail($user));
             Auth::logout();
             DB::commit();
-            return to_route('user.loginForm')->with('message', 'Registration successful. Please check your email to verify your account.');
+            return to_route('user.loginForm')->with('success', 'Registration successful. Please check your email to verify your account.');
         } catch (Throwable $e) {
             DB::rollBack();
             return $e->getMessage();
