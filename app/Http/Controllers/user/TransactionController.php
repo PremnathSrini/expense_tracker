@@ -168,4 +168,31 @@ class TransactionController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function destroy(Request $request,$transaction_id){
+        $transactionId = base64_decode($transaction_id);
+
+        DB::beginTransaction();
+        try {
+            $transaction = Transaction::findOrFail($transactionId);
+            $attachment = Attachment::find($transaction->attachment_id);
+
+            if($attachment && $attachment->name){
+                $filePath = public_path('invoices/'.($attachment->name?? ''));
+                if(file_exists($filePath)){
+                    unlink($filePath);
+                }
+            }
+
+            $transaction->delete();
+            $attachment->delete();
+
+            DB::commit();
+            return redirect()->route('user.transactions')->with('success', 'Transaction deleted successfully');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Log::error('transaction delete error '. $e->getMessage());
+            return redirect()->route('user.transactions')->with('error', 'Something went wrong');
+        }
+    }
 }

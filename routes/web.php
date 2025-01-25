@@ -60,6 +60,7 @@ Route::middleware([AuthUser::class])->group(function(){
     Route::post('transaction/store', [TransactionController::class, 'store'])->name('user.transaction.store');
     Route::get('transaction/{transactionId}/edit', [TransactionController::class, 'edit'])->name('user.transaction.edit');
     Route::patch('transaction/{transactionId}/update', [TransactionController::class, 'update'])->name('user.transaction.update');
+    Route::delete('transaction/{transactionId}/delete', [TransactionController::class, 'destroy'])->name('user.transaction.delete');
 
     /* Bills */
     Route::get('bills',[BillController::class,'index'])->name('user.bills');
