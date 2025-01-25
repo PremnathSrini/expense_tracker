@@ -70,4 +70,7 @@ Route::middleware([AuthUser::class])->group(function(){
     Route::delete('/bill/{bilId}/destroy',[BillController::class,'destroy'])->name('user.bill.destroy');
     /* Route::patch('bill/{billId}/update',[BillController::class,'update'])->name('user.bill.update');
     user.bill.mark-as-paid */
+    Route::get('/coming-soon',function(){
+        return view('user.coming-soon');
+    });
 });
