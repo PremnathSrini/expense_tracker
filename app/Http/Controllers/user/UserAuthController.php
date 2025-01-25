@@ -69,9 +69,10 @@ class UserAuthController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        $remember = $request->has('remember_me');
+        $remember = $request->filled('rememberMe');
 
         if ((Auth::attempt($credentials, $remember)) && Auth::user()->role_id != 1) {
+            $request->session()->regenerate();
             return to_route('user.index');
         } else {
             Auth::logout();
@@ -79,10 +80,14 @@ class UserAuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         try {
             Auth::logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
             return to_route('user.loginForm')->with('success', 'Logged out successfully');
         } catch (Throwable $e) {
             Log::error('logout error' . $e->getMessage());

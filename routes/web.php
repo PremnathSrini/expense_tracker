@@ -48,7 +48,7 @@ Route::get('/', [UserAuthController::class, 'showLoginForm'])->name('user.loginF
 Route::get('register', [UserAuthController::class, 'showRegisterForm'])->name('register.form');
 Route::post('register', [UserAuthController::class, 'register'])->name('user.register');
 Route::post('login', [UserAuthController::class, 'login'])->name('user.login');
-Route::get('logout', [UserAuthController::class, 'logout'])->name('user.logout');
+Route::delete('logout', [UserAuthController::class, 'logout'])->name('user.logout');
 
 Route::middleware([AuthUser::class])->group(function(){
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.index');
