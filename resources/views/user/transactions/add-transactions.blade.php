@@ -122,8 +122,12 @@
                 $(this).attr('type', 'date');
             });
             $('#date').on('blur', function () {
-                $(this).attr('type', 'text');
-                $('.date-class').removeClass('is-focused');
+                console.log($(this).val());
+                const value = $(this).val();
+                if(value === '') {
+                    $(this).attr('type', 'text');
+                    $('.date-class').removeClass('is-focused');
+                }
             });
         });
     </script>
