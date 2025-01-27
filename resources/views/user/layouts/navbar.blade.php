@@ -50,7 +50,7 @@
                   </div>
                 </a>
               </li>
-              <li class="mb-2">
+              {{-- <li class="mb-2">
                 <a class="dropdown-item border-radius-md" href="javascript:;">
                   <div class="d-flex py-1">
                     <div class="my-auto">
@@ -67,7 +67,30 @@
                     </div>
                   </div>
                 </a>
+              </li> --}}
+              @foreach (auth()->user()->unreadNotifications as $notification)
+              <li class="mb-2">
+                <a class="dropdown-item border-radius-md" href="javascript:;">
+                  <div class="d-flex py-1">
+                    <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                      <i class="material-symbols-rounded fixed-plugin-button-nav">notifications_active</i>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="text-sm font-weight-normal mb-1">
+                        {{ $notification->data['message'] }}
+                      </h6>
+                      <p class="text-xs text-secondary mb-0 d-flex align-items-center justify-content-between">
+                        <span>
+                            <i class="fa fa-clock me-1"></i>
+                            {{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}
+                        </span>
+                        <i class="material-symbols-rounded text-success ms-2 mark-as-read-btn" data-id="{{$notification->id}}" data-href="{{route('notification.read',$notification->id)}}" title="Mark as Read">done_all</i>
+                    </p>
+                    </div>
+                  </div>
+                </a>
               </li>
+              @endforeach
               <li>
                 <a class="dropdown-item border-radius-md" href="javascript:;">
                   <div class="d-flex py-1">
@@ -129,6 +152,24 @@
                     window.location.href = href;
                 }
             });
+        });
+
+        $('.mark-as-read-btn').on('click',function(){
+          const href = $(this).data('href');
+          const notificationId = $(this).data('id');
+          const clickedElement = $(this);
+          console.log(href,notificationId,clickedElement);
+          $.ajax({
+            url: href,
+            method: 'POST',
+            data: {
+              _token: `{{ csrf_token() }}`,
+              notification_id: notificationId,
+            },
+            success: function(response){
+              clickedElement.closest('li').remove();
+            }
+          });
         });
     });
     </script>

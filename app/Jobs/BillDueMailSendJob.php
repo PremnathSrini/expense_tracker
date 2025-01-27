@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Bill;
 use App\Models\User;
+use App\Notifications\BillDueDatabaseNotification;
 use App\Notifications\BillDueNotification;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -39,6 +40,7 @@ class BillDueMailSendJob implements ShouldQueue
             try{
                 $user = User::where('id',$bill->user_id)->first();
                 $user->notify(new BillDueNotification($user,$bill));
+                $user->notify(new BillDueDatabaseNotification($bill));
                 Log::info("Notification sent successfully to user {$user->id} for bill {$bill->id}");
             }catch(Throwable $exception){
                 Log::error('Error processing job', [

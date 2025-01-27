@@ -132,4 +132,11 @@ class BillController extends Controller
             return back()->with('error','Something went wrong');
         }
     }
+
+    public function markNotificationAsRead(Request $request){
+        $user = Auth::user();
+        $notification = $user->notifications()->findOrFail($request->notification_id);
+        $notification->markAsRead();
+        return response()->json(['status' => 'success']);
+    }
 }

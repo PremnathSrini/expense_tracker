@@ -184,7 +184,7 @@
                 <div class="card-body pt-4 p-3">
                     <!-- <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6> -->
                     <ul class="list-group">
-                        @foreach($lastWeekTransactions as $transaction)
+                        @foreach($lastFiveTransactions as $transaction)
                         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                             <div class="d-flex align-items-center">
                                 @if($transaction->type == 'expense')
