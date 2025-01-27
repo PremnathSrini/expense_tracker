@@ -17,8 +17,4 @@ class Bill extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-
-    protected $casts = [
-        'due_date' => 'datetime',  // Ensures that 'due_date' is cast to a Carbon instance
-    ];
 }

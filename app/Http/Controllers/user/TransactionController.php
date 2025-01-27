@@ -21,7 +21,9 @@ class TransactionController extends Controller
 
     public function index()
     {
-        $data['transactions'] = $transactions = Transaction::with(['attachment', 'category'])->get();
+        $data['transactions'] = $transactions = Transaction::with(['attachment', 'category'])
+                                                ->orderByDesc('id')
+                                                ->get();
         // foreach($transactions as $transaction){
         //     dd($transaction->type);
         // }

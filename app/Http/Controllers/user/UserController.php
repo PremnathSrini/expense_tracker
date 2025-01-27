@@ -43,7 +43,10 @@ class UserController extends Controller
         $data['user'] = Auth::user();
         $data['total_expense'] = Transaction::with('user')->where('type','expense')->sum('amount');
         $data['total_income'] = Transaction::with('user')->where('type','income')->sum('amount');
-        $data['lastWeekTransactions'] = Transaction::with(['category','attachment'])->whereBetween('date',[$from,$to])->get();
+        $data['lastFiveTransactions'] = Transaction::with(['category', 'attachment'])
+                                        ->orderByDesc('id')
+                                        ->limit(5)
+                                        ->get();
         return view('user.dashboard',$data);
     }
 
