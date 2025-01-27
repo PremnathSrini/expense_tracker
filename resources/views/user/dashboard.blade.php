@@ -114,7 +114,7 @@
                     <p class="text-sm ">For Last Month</p>
                     <div class="pe-2">
                         <div class="chart">
-                            <canvas id="pie-chart" class="pie-chart-canvas" height="170"></canvas>
+                            <canvas id="pie-chart" class="pie-chart-canvas" style="height:45vh; width:45vw"></canvas>
                         </div>
                     </div>
                     <hr class="dark horizontal">
@@ -143,14 +143,14 @@
                 </div>
             </div>
         </div> --}}
-        <div class="col-lg-8 col-md-6 mt-4 mb-3">
+        <div class="col-lg-8 col-md-6 mt-4 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h6 class="mb-0 ">Transaction Analysis</h6>
                     <p class="text-sm ">For Last Month</p>
                     <div class="pe-2">
                         <div class="chart">
-                            <canvas id="line-chart" class="line-chart-canvas" height="135"></canvas>
+                            <canvas id="line-chart" class="line-chart-canvas" style="height:45vh; width:80vw"></canvas>
                         </div>
                     </div>
                     <hr class="dark horizontal">
@@ -370,6 +370,7 @@
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'top'
@@ -436,6 +437,7 @@
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'top',
