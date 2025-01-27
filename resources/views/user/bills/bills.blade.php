@@ -49,15 +49,9 @@
                       <td class="align-middle text-center">
                         @if($bill->due_date >= Carbon\Carbon::now() && $bill->due_date <= Carbon\Carbon::now()->addDays(5))
                             <span class="badge badge-sm bg-gradient-warning" title="warning remaining days are less than 5 days" data-toggle="tool-tip">{{date('Y-m-d',strtotime($bill->due_date))}}</span>
-<<<<<<< HEAD
                         @else
                             <span class="text-secondary text-xs font-weight-bold">{{date('Y-m-d',strtotime($bill->due_date))}}</span>
                         @endif
-=======
-                          @else
-                            <span class="text-secondary text-xs font-weight-bold">{{date('Y-m-d',strtotime($bill->due_date))}}</span>
-                          @endif
->>>>>>> 5edcba8e05c4cc0fe9fbd85b8703373d9ed1e6ea
                       </td>
                       <td class="d-flex justify-content-around align-items-center mt-3 pt-3">
                         <a href="{{route('user.bill.edit',base64_encode($bill->id))}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit bill">

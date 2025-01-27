@@ -14,4 +14,4 @@ Artisan::command('inspire', function () {
 //     $this->info('Bill due mail command executed!');
 // });
 
-Schedule::command('app:send-bill-due-mail')->dailyAt('08:00');
+Schedule::command('app:send-bill-due-mail')->dailyAt('11:30');

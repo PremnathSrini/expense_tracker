@@ -173,7 +173,7 @@
                         <div class="col-md-6">
                             <h6 class="mb-0">Your Transaction's</h6>
                             <i class="material-symbols-rounded me-2 mt-2 text-lg">date_range</i>
-                            <small class="my-0 text-md">Last 7 days</small>
+                            <small class="my-0 text-md">Last 5 transactions</small>
                         </div>
                         <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
                             <a href="{{route('user.transaction.create')}}" class="btn btn-primary"><i
@@ -217,43 +217,9 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-        <div class="card-body pt-4 p-3">
-          <!-- <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6> -->
-          <ul class="list-group">
-            @foreach($lastFiveTransactions as $transaction)
-            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-              <div class="d-flex align-items-center">
-              @if($transaction->type == 'expense')
-                  <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-symbols-rounded text-lg">expand_more</i></button>
-              @else
-              <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 p-3 btn-sm d-flex align-items-center justify-content-center"><i class="material-symbols-rounded text-lg">expand_less</i></button>
-              @endif
-                <div class="d-flex flex-column">
-                  <h6 class="mb-1 text-dark text-sm">{{$transaction->description}}</h6>
-                  <span class="text-xs">{{ date('d F Y', strtotime($transaction->date)) }}</span>
-                </div>
-              </div>
-              @if($transaction->type == 'expense')
-                <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                  - &#8377; {{$transaction->amount}}
-                </div>
-              @else
-                <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                  + &#8377; {{$transaction->amount}}
-                </div>
-              @endif
-            </li>
-            @endforeach
-          </ul>
-          <!-- <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6> -->
-        </div>
       </div>
     </div>
     <!-- {{-- <div class="col-lg-4 col-md-6">
-=======
-        <!-- {{-- <div class="col-lg-4 col-md-6">
->>>>>>> refs/remotes/origin/main
         <div class="card h-100">
           <div class="card-header pb-0">
             <h6>Orders overview</h6>

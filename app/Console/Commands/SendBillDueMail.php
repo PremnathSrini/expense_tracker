@@ -19,7 +19,7 @@ class SendBillDueMail extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Send email notifications for bills due within 5 days.';
 
     /**
      * Execute the console command.
