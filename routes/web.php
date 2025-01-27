@@ -71,15 +71,11 @@ Route::middleware([AuthUser::class])->group(function(){
     Route::delete('/bill/{bilId}/destroy',[BillController::class,'destroy'])->name('user.bill.destroy');
     /* Route::patch('bill/{billId}/update',[BillController::class,'update'])->name('user.bill.update');
     user.bill.mark-as-paid */
-<<<<<<< HEAD
+
     Route::post('markNotificationAsRead',[BillController::class,'markNotificationAsRead'])->name('notification.read');
-=======
-<<<<<<< HEAD
-    Route::post('markNotificationAsRead',[BillController::class,'markNotificationAsRead'])->name('notification.read');
-=======
->>>>>>> 5edcba8e05c4cc0fe9fbd85b8703373d9ed1e6ea
+
     Route::get('/coming-soon',function(){
         return view('user.coming-soon');
     });
->>>>>>> refs/remotes/origin/main
+
 });
