@@ -43,9 +43,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a id="notifications-link" class="nav-link text-dark" href="#">
-                    <i class="material-symbols-rounded opacity-5">notifications</i>
-                    <span class="nav-link-text ms-1">Notifications</span>
+                <a id="notifications-link" class="nav-link text-dark" href="{{ url('/coming-soon') }}">
+                    <i class="material-symbols-rounded opacity-5">qr_code_scanner</i>
+                    <span class="nav-link-text ms-1">Payments</span>
                 </a>
                 {{-- </li>
         <li class="nav-item mt-3">
@@ -85,6 +85,8 @@
             const currentUrl = window.location.href;
 
             const activeLink = localStorage.getItem('activeLink');
+            console.log(activeLink,currentUrl);
+
             if (activeLink) {
                 $links.removeClass('active bg-gradient-dark text-white');
                 $(`#${activeLink}`).addClass('active bg-gradient-dark text-white');

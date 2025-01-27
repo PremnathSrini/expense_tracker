@@ -56,9 +56,13 @@
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{$transaction->date}}</span>
                       </td>
-                      <td class="align-middle">
-                        <a href="{{route('user.transaction.edit',base64_encode($transaction->id))}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                      <td class="align-middle text-center d-flex justify-content-around" style="height: 61px; padding-top: 22px;">
+                        <a href="{{route('user.transaction.edit',base64_encode($transaction->id))}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit transaction">
                           Edit
+                        </a>
+                        <a href="{{route('user.transaction.delete',base64_encode($transaction->id))}}" class="text-danger font-weight-bold text-xs transaction-delete"
+                            data-toggle="tooltip" data-original-title="Delete transaction">
+                          Delete
                         </a>
                       </td>
                     </tr>
@@ -75,4 +79,29 @@
         </div>
     </div>
 </div>
+
+@push('custom-scripts')
+  <script>
+    $(document).ready(function () {
+        $('.transaction-delete').click(function (e) {
+            e.preventDefault();
+
+            var href = $(this).attr('href');
+            console.log(href);
+            Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to Delete?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Delete this transaction',
+            cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = href;
+                }
+            });
+        });
+    });
+    </script>
+@endpush
 @endsection
