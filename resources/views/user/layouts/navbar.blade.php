@@ -34,12 +34,12 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="material-symbols-rounded">notifications</i>
                         @php
-                        $unreadNotifications = auth()->user()->unreadNotifications;
+                            $unreadNotifications = auth()->user()->unreadNotifications;
                         @endphp
                         @if ($unreadNotifications->count() > 0)
-                        <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-danger">
-                            {{ $unreadNotifications->count() }}
-                        </span>
+                            <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-danger notification-badge">
+                                {{ $unreadNotifications->count() }}
+                            </span>
                         @endif
                     </a>
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
@@ -125,6 +125,7 @@
             },
             success: function(response){
               clickedElement.closest('li').remove();
+
             }
           });
         });

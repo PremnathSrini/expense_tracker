@@ -34,9 +34,9 @@
                                 @error('date')
                                 <span class="text-danger text-sm mx-3"> {{$message}} </span>
                                 @enderror
-                                <div class="input-group input-group-outline mb-3 mx-3">
+                                <div class="input-group input-group-outline mb-3 mx-3 date-class">
                                     <label class="form-label">Due Date<span class="text-danger">*</span></label>
-                                    <input type="date" name="date" id="date" class="form-control" value="{{old('date')}}">
+                                    <input type="text" name="date" id="date" class="form-control" value="{{old('date')}}">
                                 </div>
                                 <div class="row">
                                     <div class="col">
@@ -74,14 +74,14 @@
                                                 value="0" {{ old('recurring') == 'no' ? "checked='checked'" : '' }}> No
                                             </label>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 </div>
                                 @error('recurring_period')
                                 <span class="text-danger text-sm mx-3"> {{$message}} </span>
                                 @enderror
                                 <div class="input-group input-group-outline mb-3 mx-3 recurring_section d-none">
                                     <label for="recurring_period" class="form-label">Recurring period<span
-                                            class="text-danger">*</span></label>                                    
+                                            class="text-danger">*</span></label>
                                     <select name="recurring_period" id="recurring_period" class="form-control px-3 py-3">
                                         <option value=""></option>
                                         <option value="1">Weekly</option>
@@ -89,7 +89,7 @@
                                         <option value="3">Quarterly</option>
                                         <option value="4">Annually</option>
                                     </select>
-                                </div>                
+                                </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success mx-3">Save</button>
@@ -107,7 +107,7 @@
                 }else{
                     $('.recurring_section').addClass('d-none');
                 }
-            });    
+            });
         });
         $('select[name="recurring_period"]').on('change',function(){
             $('.recurring_section').addClass('is-filled');
@@ -117,6 +117,16 @@
                 $('.recurring_section').addClass('is-filled');
             }
         });
+        $('#date').on('focus', function () {
+                $(this).attr('type', 'date');
+            });
+            $('#date').on('blur', function () {
+                const value = $(this).val();
+                if(value === '') {
+                    $(this).attr('type', 'text');
+                    $('.date-class').removeClass('is-focused');
+                }
+            });
     </script>
     @endpush
     @endsection
