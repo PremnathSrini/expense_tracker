@@ -13,7 +13,8 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a id="dashboard-link" class="nav-link text-dark active bg-gradient-dark text-white sidebar-links"
+                <a id="dashboard-link"
+                    class="nav-link {{ request()->routeIs('user.index') ? 'active bg-gradient-dark text-white' : 'text-dark' }} sidebar-links"
                     href="{{ route('user.index') }}">
                     <i class="material-symbols-rounded opacity-5">dashboard</i>
                     <span class="nav-link-text ms-1">Dashboard</span>
@@ -21,7 +22,8 @@
             </li>
 
             <li class="nav-item">
-                <a id="transactions-link" class="nav-link text-dark sidebar-links"
+                <a id="transactions-link"
+                    class="nav-link {{ request()->routeIs('user.transactions') || request()->routeIs('user.transaction.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }} sidebar-links"
                     href="{{ route('user.transactions') }}">
                     <i class="material-symbols-rounded opacity-5">account_balance</i>
                     <span class="nav-link-text ms-1">Transactions</span>
@@ -29,13 +31,17 @@
             </li>
 
             <li class="nav-item">
-                <a id="bills-link" class="nav-link text-dark sidebar-links" href="{{ route('user.bills') }}">
+                <a id="bills-link"
+                    class="nav-link {{ request()->routeIs('user.bills') || request()->routeIs('user.bill.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }} sidebar-links"
+                    href="{{ route('user.bills') }}">
                     <i class="material-symbols-rounded opacity-5">receipt_long</i>
                     <span class="nav-link-text ms-1">Billing</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a id="payments-link" class="nav-link text-dark sidebar-links" href="{{ url('/coming-soon') }}">
+                <a id="payments-link"
+                    class="nav-link {{ request()->is('coming-soon') ? 'active bg-gradient-dark text-white' : 'text-dark' }} sidebar-links"
+                    href="{{ url('/coming-soon') }}">
                     <i class="material-symbols-rounded opacity-5">qr_code_scanner</i>
                     <span class="nav-link-text ms-1">Payments</span>
                 </a>
@@ -51,37 +57,3 @@
         </div>
     </div>
 </aside>
-@push('custom-scripts')
-<script>
-    $(document).ready(function() {
-            const $links = $('.sidebar-links');
-            const currentUrl = window.location.href;
-
-            $links.each(function() {
-                console.log(this.href);
-                if (this.href === currentUrl) {
-                    $links.removeClass('active bg-gradient-dark text-white');
-                    $(this).addClass('active bg-gradient-dark text-white');
-                    localStorage.setItem('activeLink', $(this).attr('id'));
-                }
-            });
-
-            const activeLink = localStorage.getItem('activeLink');
-
-            if (activeLink) {
-                $links.removeClass('active bg-gradient-dark text-white');
-                $(`#${activeLink}`).addClass('active bg-gradient-dark text-white');
-            }
-
-            $links.on('click', function() {
-                $links.removeClass('active bg-gradient-dark text-white');
-                $links.addClass('text-dark');
-
-                $(this).removeClass('text-dark');
-                $(this).addClass('active bg-gradient-dark text-white');
-
-                localStorage.setItem('activeLink', $(this).attr('id'));
-            });
-        });
-</script>
-@endpush

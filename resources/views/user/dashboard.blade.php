@@ -2,26 +2,25 @@
 @section('content')
 <div class="container-fluid py-2">
     <div class="row">
-        <div class="d-flex justify-content-between align-items-center ms-3">
-            <div>
+        <div class="d-flex justify-content-between align-items-start align-items-lg-center ms-1 ms-md-3 flex-wrap gap-3">
+            <div class="me-2">
                 <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
                 <p class="mb-4">
                     Check your overall spend analysis.
                 </p>
             </div>
-            <div>
-                <p class="mb-0 mx-3 text-primary font-weight-bolder">
-                    Select the date range to visualize your expenses.
+            <div class="dashboard-filter-panel">
+                <p class="mb-1 text-primary font-weight-bolder">
+                    Filter transaction range
                 </p>
-                <div class="input-group">
-                    <input type="text" class="form-control mx-3 bg-white px-2" id="daterange-picker"
-                        placeholder="Select date range">
+                <p class="text-xs text-secondary mb-2" id="range-text">Showing data for selected range</p>
+                <div class="input-group dashboard-filter-group">
+                    <span class="input-group-text border-0 bg-transparent pe-2">
+                        <i class="material-symbols-rounded opacity-9">date_range</i>
+                    </span>
+                    <input type="text" class="form-control bg-white px-2" id="daterange-picker"
+                        placeholder="Select date range" readonly>
                     <input type="hidden" name="hidden-href" id="hidden-href" value="{{ route('fetch-data') }}">
-                    <div class="input-group-append">
-                        <div class="input-group-text ">
-                            <i class="material-symbols-rounded opacity-9 mx-4">Tune</i>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -114,7 +113,7 @@
                     <p class="text-sm ">For Last Month</p>
                     <div class="pe-2">
                         <div class="chart">
-                            <canvas id="pie-chart" class="pie-chart-canvas" style="height:45vh; width:45vw"></canvas>
+                            <canvas id="pie-chart" class="pie-chart-canvas dashboard-chart"></canvas>
                         </div>
                     </div>
                     <hr class="dark horizontal">
@@ -150,7 +149,7 @@
                     <p class="text-sm ">For Last Month</p>
                     <div class="pe-2">
                         <div class="chart">
-                            <canvas id="line-chart" class="line-chart-canvas" style="height:45vh; width:80vw"></canvas>
+                            <canvas id="line-chart" class="line-chart-canvas dashboard-chart"></canvas>
                         </div>
                     </div>
                     <hr class="dark horizontal">
@@ -290,46 +289,133 @@
       </div> --}} -->
     </div>
 </div>
+@push('custom-styles')
+<style>
+    .dashboard-filter-panel {
+        min-width: 290px;
+        width: 100%;
+        max-width: 440px;
+    }
+
+    .dashboard-filter-group {
+        border: 1px solid #d2d6da;
+        border-radius: 0.5rem;
+        background: #fff;
+        box-shadow: 0 0.2rem 0.6rem rgba(33, 37, 41, 0.08);
+    }
+
+    .dashboard-filter-group #daterange-picker {
+        border: 0;
+        color: #344767;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .dashboard-filter-group #daterange-picker:focus {
+        box-shadow: none;
+    }
+
+    .dashboard-chart {
+        min-height: 320px;
+        width: 100%;
+    }
+
+    .daterangepicker .drp-selected {
+        color: #2dce89;
+        font-weight: 700;
+    }
+
+    .daterangepicker td.active,
+    .daterangepicker td.active:hover {
+        background-color: #344767;
+        border-color: #344767;
+    }
+
+    .daterangepicker .ranges li.active {
+        background-color: #344767;
+        color: #fff;
+    }
+</style>
+@endpush
 @push('custom-scripts')
 <script>
     $(document).ready(function() {
-        $('#daterange-picker').daterangepicker({
-        locale: {
-        format: 'YYYY-MM-DD'
-        }
+    const $rangeText = $('#range-text');
+    const $dateRangePicker = $('#daterange-picker');
+    const href = $('#hidden-href').val();
+
+    function setRangeText(startDate, endDate) {
+      const formatted = `${startDate.format('DD MMM YYYY')} - ${endDate.format('DD MMM YYYY')}`;
+      $rangeText.text(`Showing data for ${formatted}`);
+    }
+
+    function applyChartData(response) {
+      const labels = response && Array.isArray(response.labels) ? response.labels : [];
+      const prices = response && Array.isArray(response.prices) ? response.prices : [];
+      const expenses = response && Array.isArray(response.expenses) ? response.expenses : [];
+      const incomes = response && Array.isArray(response.incomes) ? response.incomes : [];
+
+      pie.data.labels = labels;
+      pie.data.datasets[0].data = prices;
+      pie.update();
+
+      line.data.labels = labels;
+      line.data.datasets[0].data = expenses;
+      line.data.datasets[1].data = incomes;
+      line.update();
+    }
+
+    $dateRangePicker.daterangepicker({
+      autoApply: true,
+      alwaysShowCalendars: true,
+      maxDate: moment(),
+      opens: 'left',
+      startDate: moment().subtract(6, 'days'),
+      endDate: moment(),
+      locale: {
+        format: 'YYYY-MM-DD',
+        cancelLabel: 'Clear'
+      },
+      ranges: {
+        'Today': [moment(), moment()],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
     });
 
-    $('#daterange-picker').on('apply.daterangepicker',function(ev,picker){
-      const startDate = picker.startDate.format('YYYY-MM-DD');
-      const endDate = picker.endDate.format('YYYY-MM-DD');
-      const href = $('#hidden-href').val();
-      console.log(startDate,endDate,href);
+    setRangeText(moment().subtract(6, 'days'), moment());
+
+    $dateRangePicker.on('apply.daterangepicker', function(ev, picker) {
+      const startDate = picker.startDate;
+      const endDate = picker.endDate;
+      setRangeText(startDate, endDate);
+
       $.ajax({
         url: href,
         method: 'POST',
         data: {
-          start_date: startDate,
-          end_date: endDate,
+          start_date: startDate.format('YYYY-MM-DD'),
+          end_date: endDate.format('YYYY-MM-DD'),
           _token: `{{ csrf_token() }}`
         },
-        success: function(response){
+        success: function(response) {
+          if (!response || !response.labels || response.labels.length === 0) {
+            toastr.info('No data available for the selected date range.');
+            applyChartData({
+              labels: [],
+              prices: [],
+              expenses: [],
+              incomes: []
+            });
+            return;
+          }
 
-            if (!response || !response.labels || response.labels.length === 0) {
-                console.log('No data available for the selected range.');
-                alert('No data available for the selected range.');
-                location.reload();
-            }
-            pie.data.datasets[0].data = response.prices;
-            pie.data.labels = response.labels;
-            pie.update();
-
-            line.data.datasets[0].data = response.expenses;
-            line.data.datasets[1].data = response.incomes;
-            line.data.labels = response.labels;
-            line.update();
+          applyChartData(response);
         },
-        error: function(xhr,status,error){
-          console.error('Error fetching data:',error);
+        error: function() {
+          toastr.error('Unable to fetch data for the selected date range.');
         }
       });
     });
@@ -447,7 +533,7 @@
           x: {
             title: {
               display: true,
-              text: 'Months',
+              text: 'Categories',
             },
           },
           y: {
