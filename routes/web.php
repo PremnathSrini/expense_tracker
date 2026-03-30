@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AuthController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\user\BillController;
 use App\Http\Controllers\user\TransactionController;
 use App\Http\Controllers\user\UserAuthController;
@@ -13,6 +14,7 @@ use App\Http\Middleware\AuthUser;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/admin/login', [AuthController::class, 'index'])->name('admin.login');
 Route::post('/admin', [AuthController::class, 'login'])->name('admin.auth');
@@ -76,6 +78,12 @@ Route::middleware([AuthUser::class])->group(function(){
 
     Route::get('/coming-soon',function(){
         return view('user.coming-soon');
+    });
+
+    Route::get('invoice',[InvoiceController::class,'generateInvoice']);
+    Route::get('qr-invoice',function(){
+        $qrPath = 'app/private/public/invoices/INV2025036236.pdf';
+        return view('user.invoices.pdf',['qrPath' => Storage::url($qrPath)]);
     });
 
 });
