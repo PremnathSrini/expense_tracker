@@ -60,10 +60,15 @@
                         <a href="{{route('user.transaction.edit',base64_encode($transaction->id))}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit transaction">
                           Edit
                         </a>
-                        <a href="{{route('user.transaction.delete',base64_encode($transaction->id))}}" class="text-danger font-weight-bold text-xs transaction-delete"
+                        <a href="#" class="text-danger font-weight-bold text-xs transaction-delete"
+                            data-form-id="delete-transaction-{{$transaction->id}}"
                             data-toggle="tooltip" data-original-title="Delete transaction">
                           Delete
                         </a>
+                        <form id="delete-transaction-{{$transaction->id}}" action="{{route('user.transaction.delete',base64_encode($transaction->id))}}" method="POST" class="d-none">
+                            @csrf
+                            @method('DELETE')
+                        </form>
                       </td>
                     </tr>
                     @empty
@@ -86,8 +91,7 @@
         $('.transaction-delete').click(function (e) {
             e.preventDefault();
 
-            var href = $(this).attr('href');
-            console.log(href);
+            var formId = $(this).data('form-id');
             Swal.fire({
             title: 'Are you sure?',
             text: 'Do you want to Delete?',
@@ -97,7 +101,7 @@
             cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = href;
+                    $('#' + formId).trigger('submit');
                 }
             });
         });

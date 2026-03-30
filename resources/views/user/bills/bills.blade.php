@@ -62,9 +62,15 @@
                         {{-- <a href="{{route('user.bill.mark-as-paid',base64_encode($bill->id))}}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit bill">
                           Mark as Paid
                         </a> --}}
-                        <a href="{{route('user.bill.destroy',base64_encode($bill->id))}}" class="text-danger font-weight-bold text-xs" data-toggle="tooltip" data-original-title="delete bill">
+                        <a href="#" class="text-danger font-weight-bold text-xs bill-delete"
+                          data-form-id="delete-bill-{{$bill->id}}"
+                          data-toggle="tooltip" data-original-title="delete bill">
                           Delete
                         </a>
+                        <form id="delete-bill-{{$bill->id}}" action="{{route('user.bill.destroy',base64_encode($bill->id))}}" method="POST" class="d-none">
+                          @csrf
+                          @method('DELETE')
+                        </form>
                       </td>
                     </tr>
                     @empty
@@ -80,4 +86,26 @@
         </div>
     </div>
 </div>
+@push('custom-scripts')
+<script>
+  $(document).ready(function () {
+      $('.bill-delete').click(function (e) {
+          e.preventDefault();
+          var formId = $(this).data('form-id');
+          Swal.fire({
+          title: 'Are you sure?',
+          text: 'Do you want to Delete?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, Delete this bill',
+          cancelButtonText: 'No'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  $('#' + formId).trigger('submit');
+              }
+          });
+      });
+  });
+</script>
+@endpush
 @endsection

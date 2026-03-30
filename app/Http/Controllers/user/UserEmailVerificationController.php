@@ -15,11 +15,11 @@ class UserEmailVerificationController extends Controller
             abort(403,'Invalid Verification link');
         }
         if($user->hasVerifiedEmail()){
-            return redirect()->route('login.form')->with('message','Email already Verified');
+            return redirect()->route('user.loginForm')->with('message','Email already Verified');
         }
         if ($user->markEmailAsVerified()) {
             event(new Verified($user));
         }
-        return redirect()->route('login.form')->with('message', 'Email successfully verified.');
+        return redirect()->route('user.loginForm')->with('message', 'Email successfully verified.');
     }
 }

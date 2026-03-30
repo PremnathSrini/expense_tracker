@@ -22,7 +22,7 @@ class AuthUser
                 return $next($request);
             }else{
                 Auth::logout();
-                return to_route('user.login');
+                return to_route('user.loginForm');
             }
         }else{
             Log::info('else part in middleware'.Auth::check());

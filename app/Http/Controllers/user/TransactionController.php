@@ -45,7 +45,7 @@ class TransactionController extends Controller
                 'description' => 'required',
                 'amount' => 'required',
                 'date' => 'required',
-                'type' => 'required',
+                'type' => 'required|in:income,expense',
                 'category' => 'required',
                 'invoice' => 'sometimes|mimes:doc,docx,pdf,jpg,jpeg,png',
             ],
@@ -110,7 +110,7 @@ class TransactionController extends Controller
                 'description' => 'required',
                 'amount' => 'required',
                 'date' => 'required',
-                'type' => 'required',
+                'type' => 'required|in:income,expense',
                 'category' => 'required',
                 'invoice' => 'sometimes|mimes:doc,docx,pdf,jpg,jpeg,png',
             ],
@@ -143,11 +143,13 @@ class TransactionController extends Controller
                     }
                 }
 
-                $attachment = $oldDbFile->attachment_id
-                    ? Attachment::where('id', $oldDbFile->attachment_id)->update(['name' => $newFile])
-                    : Attachment::create(['name' => $newFile]);
-
-                $attachmentId = $attachment->id ?? $oldDbFile->attachment_id;
+                if ($oldDbFile->attachment_id) {
+                    Attachment::where('id', $oldDbFile->attachment_id)->update(['name' => $newFile]);
+                    $attachmentId = $oldDbFile->attachment_id;
+                } else {
+                    $attachment = Attachment::create(['name' => $newFile]);
+                    $attachmentId = $attachment->id;
+                }
             } else {
                 $attachmentId = $oldDbFile->attachment_id;
             }
@@ -187,7 +189,9 @@ class TransactionController extends Controller
             }
 
             $transaction->delete();
-            $attachment->delete();
+            if ($attachment) {
+                $attachment->delete();
+            }
 
             DB::commit();
             return redirect()->route('user.transactions')->with('success', 'Transaction deleted successfully');

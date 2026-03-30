@@ -46,11 +46,11 @@
                                             class="text-danger">*</span></label>
                                     <label for="income">
                                         <input type="radio" name="type" id="income"
-                                            value="1" {{ old('type') == 'income' ? "checked='checked'" : '' }}> Income
+                                            value="income" {{ old('type') == 'income' ? "checked='checked'" : '' }}> Income
                                     </label>
                                     <label for="expense">
                                         <input type="radio" name="type" id="expense"
-                                            value="2" {{ old('type') == 'expense' ? "checked='checked'" : '' }}> Expense
+                                            value="expense" {{ old('type') == 'expense' ? "checked='checked'" : '' }}> Expense
                                     </label>
                                 </div>
                                 @error('category')
