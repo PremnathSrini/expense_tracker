@@ -102,10 +102,14 @@
             </ul>
           </li>
           <li class="nav-item d-flex align-items-center">
-            <a href="{{route('admin.logout')}}" class="nav-link text-body font-weight-bold px-0 log-out">
-              <i class="material-symbols-rounded">logout</i>
-            </a>
-          </li>
+                <a href="#" class="nav-link text-body font-weight-bold px-0 log-out">
+                    <i class="material-symbols-rounded">logout</i>
+                </a>
+                <form id="user-logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            </li>
         </ul>
       </div>
     </div>

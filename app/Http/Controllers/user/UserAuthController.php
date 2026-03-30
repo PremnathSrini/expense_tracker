@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Mail\VerifyEmail;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,11 +43,20 @@ class UserAuthController extends Controller
         }
         DB::beginTransaction();
         try {
+            Role::firstOrCreate(
+                ['id' => 1],
+                ['name' => 'admin', 'status' => 1]
+            );
+            $userRole = Role::firstOrCreate(
+                ['id' => 2],
+                ['name' => 'user', 'status' => 1]
+            );
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role_id' => 2,
+                'role_id' => $userRole->id,
             ]);
             Mail::to($user->email)->send(new VerifyEmail($user));
             Auth::logout();

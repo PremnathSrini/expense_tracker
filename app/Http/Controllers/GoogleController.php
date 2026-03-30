@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,13 +33,22 @@ class GoogleController extends Controller
                     return to_route('user.index');
                 }
             } else {
+                Role::firstOrCreate(
+                    ['id' => 1],
+                    ['name' => 'admin', 'status' => 1]
+                );
+                $userRole = Role::firstOrCreate(
+                    ['id' => 2],
+                    ['name' => 'user', 'status' => 1]
+                );
+
                 $newUser = User::updateOrCreate(
                     ['email' => $user->email],
                     [
                         'name' => $user->name,
                         'google_id' => $user->id,
                         'password' => bcrypt('password@123'),
-                        'role_id' => 2,
+                        'role_id' => $userRole->id,
                     ]
                 );
                 DB::commit();
